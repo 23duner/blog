@@ -34,7 +34,6 @@ func Add(u *models.User) (error error) {
 		// 如果存在重复的用户名，返回相应的错误信息
 		return fmt.Errorf("用户名已存在: %w", err)
 	}
-
 	//2.判断用户密码是不是空
 	if u.Password == "" {
 		return fmt.Errorf("密码不能为空")
@@ -58,4 +57,22 @@ func Add(u *models.User) (error error) {
 	}
 	//保存进数据库
 	return mysql.AddUser(p)
+}
+
+func Update(u *models.User) (error error) {
+	return mysql.Update(u)
+}
+func UpdatePassword(u *models.User) (error error) {
+	return mysql.UpdatePassword(u)
+}
+
+func Delete(id int) (error error) {
+	return mysql.Delete(id)
+}
+func SelectPage(p *models.Page) (blogs []models.Blog, err error) {
+	PN := p.PageNum
+	if PN < 0 {
+		return nil, fmt.Errorf("页数不可以为负数")
+	}
+	return mysql.SelectPage(p)
 }

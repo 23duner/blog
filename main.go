@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"hw_blog0/core"
 	"hw_blog0/global"
 	"hw_blog0/routers"
@@ -14,7 +15,7 @@ func main() {
 	//初始化日志
 	global.Log = core.InitLogger()
 	//连接数据库
-	db, err := sql.Open("mysql", "root:jzp13354182727@tcp(127.0.0.1:3306)/demo?charset=utf8mb4&parseTime=true&loc=Local")
+	db, err := sql.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/user?charset=utf8mb4&parseTime=true&loc=Local")
 	if err != nil {
 		global.Log.Error(err)
 	}

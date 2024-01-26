@@ -12,6 +12,10 @@ func Init() *gin.Engine {
 	//注册登陆业务
 	v.POST("/login", controller.LoginHandler)
 	v1 := r.Group("user")
-	v1.POST("add")
+	v1.POST(" /blog/selectPage", controller.SelectPage)
+	v1.POST("/user/add", controller.Add)
+	v1.PUT("/user/update", controller.Update)
+	v1.PUT("/updatePassword", controller.UpdatePassword)
+	v1.DELETE("/user/delete", controller.Delete)
 	return r
 }
