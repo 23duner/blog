@@ -17,5 +17,10 @@ func Init() *gin.Engine {
 	v1.PUT("/user/update", controller.Update)
 	v1.PUT("/updatePassword", controller.UpdatePassword)
 	v1.DELETE("/user/delete", controller.Delete)
+	api := r.Group("comment")
+	 api.POST("/comment/add", controller.AddComment)
+	 api.GET("/comment/selectCount", controller.SelectCommentCount)
+	 api.DELETE("/comment/delete/:id", controller.DeleteComment)
+	
 	return r
 }
