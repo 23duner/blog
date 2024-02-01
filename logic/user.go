@@ -76,3 +76,19 @@ func SelectPage(p *models.Page) (blogs []models.Blog, err error) {
 	}
 	return mysql.SelectPage(p)
 }
+
+func SelectUser(p *models.Page) (blogs []models.Blog, err error) {
+	PN := p.PageNum
+	if PN < 0 {
+		return nil, fmt.Errorf("页数不可以为负数")
+	}
+	return mysql.SelectUser(p)
+}
+
+func SelectLike(p *models.Page) (blogs []models.Blog, err error) {
+	PN := p.PageNum
+	if PN < 0 {
+		return nil, fmt.Errorf("页数不可以为负数")
+	}
+	return mysql.SelectLike(p)
+}

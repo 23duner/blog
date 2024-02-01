@@ -94,3 +94,55 @@ func Delete(id int) (err error) {
 	}
 	return nil
 }
+
+// SelectUser 根据用户查询博客
+func SelectUser(p *models.Page) ([]models.Blog, error) {
+	rows, err := db.Query(`SELECT * FROM blog WHERE username = ?`, p.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	var results []models.Blog
+	for rows.Next() {
+		var blog models.Blog
+		err := rows.Scan(&blog.ID, &blog.Title, &blog.Content, &blog.Descr, &blog.Cover, &blog.Tags, &blog.UserId, &blog.Name, &blog.Date, &blog.ReadCount, &blog.CategoryId)
+		if err != nil {
+			rows.Close()
+			return nil, err
+		}
+		results = append(results, blog)
+	}
+	err = rows.Err()
+	if err != nil {
+		rows.Close()
+		return nil, err
+	}
+	rows.Close()
+	return results, nil
+}
+
+// SelectLike 根据点赞查询博客
+func SelectLike(p *models.Page) ([]models.Blog, error) {
+	rows, err := db.Query(`SELECT * FROM blog WHERE id IN (SELECT fid FROM likes WHERE user_name = ？)`, p.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	var results []models.Blog
+	for rows.Next() {
+		var blog models.Blog
+		err := rows.Scan(&blog.ID, &blog.Title, &blog.Content, &blog.Descr, &blog.Cover, &blog.Tags, &blog.UserId, &blog.Name, &blog.Date, &blog.ReadCount, &blog.CategoryId)
+		if err != nil {
+			rows.Close()
+			return nil, err
+		}
+		results = append(results, blog)
+	}
+	err = rows.Err()
+	if err != nil {
+		rows.Close()
+		return nil, err
+	}
+	rows.Close()
+	return results, nil
+}

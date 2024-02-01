@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"hw_blog0/dao/mysql"
+
 	"hw_blog0/global"
 	"hw_blog0/logic"
 	"hw_blog0/models"
@@ -128,4 +129,43 @@ func UpdatePassword(c *gin.Context) {
 	}
 	//返回响应
 	ResponseSuccess(c, nil)
+}
+func SelectUser(c *gin.Context) {
+	//获取请求参数及参数校验
+	var u *models.Page
+	if err := c.ShouldBindJSON(&u); err != nil {
+		//请求参数有误，直接返回响应
+		global.Log.Error("selectUser with invalid param")
+		ResponseError(c, CodeInvalidParams) // 请求参数错误
+		return
+	}
+	//处理业务逻辑-筛选博客
+	blogs, err := logic.SelectUser(u)
+	if err != nil {
+		global.Log.Error("logic.selectUser failed", err)
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+	//返回响应
+	ResponseSuccess(c, blogs)
+}
+
+func SelectLike(c *gin.Context) {
+	//获取请求参数及参数校验
+	var u *models.Page
+	if err := c.ShouldBindJSON(&u); err != nil {
+		//请求参数有误，直接返回响应
+		global.Log.Error("selectLike with invalid param")
+		ResponseError(c, CodeInvalidParams) // 请求参数错误
+		return
+	}
+	//处理业务逻辑-筛选博客
+	blogs, err := logic.SelectLike(u)
+	if err != nil {
+		global.Log.Error("logic.selectLike failed", err)
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+	//返回响应
+	ResponseSuccess(c, blogs)
 }
